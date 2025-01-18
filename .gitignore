@@ -1,3 +1,5 @@
 .venv/
 data/
 ffmpeg/
+__pycache__*
+api/

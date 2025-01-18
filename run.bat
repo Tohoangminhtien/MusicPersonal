@@ -1,1 +1,1 @@
-streamlit run app.py
+uvicorn app:app --reload
