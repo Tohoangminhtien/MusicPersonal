@@ -4,6 +4,7 @@ WORKDIR /src
 COPY . .
 
 RUN apt-get update
+RUN apt-get install -y ffmpeg
 RUN pip install -r requirement.txt
 
 EXPOSE 8000

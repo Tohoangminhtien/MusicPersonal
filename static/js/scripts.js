@@ -139,12 +139,13 @@ axios.get("/music")
         alert(err);
     });
 
-async function save() {
+function save() {
     axios.post("/music", {
         name: document.getElementById("music_name").value,
         url: document.getElementById("music_url").value
-    }).then(res => window.location.href = "/")
-        .catch(er => {
-            alert(er.response.data.message)
-        })
+    }).then(res => {
+        window.location.href = "/"
+    }).catch(er => {
+        alert(er.response.data.message)
+    })
 }

@@ -47,7 +47,7 @@ async def add_music(model: AddMusicModel):
             }],
             'outtmpl': f'data/{model.name}',
             'verbose': False,
-            'ffmpeg_location': 'ffmpeg/bin'
+            # 'ffmpeg_location': 'ffmpeg/bin'
         }
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([model.url])
