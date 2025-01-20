@@ -12,7 +12,7 @@ from pathlib import Path
 
 app = FastAPI()
 templates = Jinja2Templates(directory='templates')
-app.mount("/data", StaticFiles(directory=Path(__file__).parent / "data"), name="data")
+app.mount("/data", StaticFiles(directory="data"), name="data")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 

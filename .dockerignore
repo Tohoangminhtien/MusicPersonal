@@ -1,0 +1,4 @@
+.venv/
+ffmpeg/
+__pycache__*
+api/
