@@ -1,0 +1,31 @@
+.control-btn {
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+.control-btn.active {
+    color: #2563EB;
+    transform: scale(1.1);
+}
+
+.song-title {
+    animation: slide 15s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0%);
+    }
+
+    50% {
+        transform: translateX(-20%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
