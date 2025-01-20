@@ -51,3 +51,13 @@ def add_music(model: AddMusicModel):
     with YoutubeDL(ydl_opts) as ydl:
         ydl.download([model.url])
         return JSONResponse({"message": "Successfully add music"})
+
+
+@app.delete("/music", response_class=JSONResponse)
+def delete_music(model: DeleMusic):
+    file_path = f"data/{model.name}.mp3"
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        return JSONResponse({"message": "Successfully add music"})
+    else:
+        return JSONResponse({"message": "File not exists"})

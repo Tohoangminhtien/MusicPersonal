@@ -10,3 +10,7 @@ class Music(BaseModel):
     stt: int
     name: str
     path: str
+
+
+class DeleMusic(BaseModel):
+    name: str
