@@ -17,12 +17,12 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/")
-def home_page(request: Request):
+async def home_page(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
 
 @app.get("/music", response_model=List[Music])
-def get_music():
+async def get_music():
     songs = os.listdir("data")
     songs_name = [s[:-4] for s in songs]
     songs_path = [f"data/{s}" for s in songs]
@@ -36,25 +36,28 @@ def get_music():
 
 
 @app.post("/music", response_class=JSONResponse)
-def add_music(model: AddMusicModel):
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-        'outtmpl': f'data/{model.name}',
-        'verbose': False,
-        'ffmpeg_location': 'ffmpeg/bin'
-    }
-    with YoutubeDL(ydl_opts) as ydl:
-        ydl.download([model.url])
-        return JSONResponse({"message": "Successfully add music"})
+async def add_music(model: AddMusicModel):
+    if model.name and model.url:
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+            'outtmpl': f'data/{model.name}',
+            'verbose': False,
+            'ffmpeg_location': 'ffmpeg/bin'
+        }
+        with YoutubeDL(ydl_opts) as ydl:
+            ydl.download([model.url])
+            return JSONResponse({"message": "Successfully add music"})
+    else:
+        return JSONResponse({"message": "Fields 'name' and 'url' must not be empty"}, status_code=400)
 
 
 @app.delete("/music", response_class=JSONResponse)
-def delete_music(model: DeleMusic):
+async def delete_music(model: DeleMusic):
     file_path = f"data/{model.name}.mp3"
     if os.path.exists(file_path):
         os.remove(file_path)

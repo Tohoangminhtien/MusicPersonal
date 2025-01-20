@@ -73,6 +73,17 @@ function playMusic(path, index) {
     audio.play();
     isPlaying = true;
 
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: path.slice(5, -4),
+            artwork: [
+                { src: "static/logo/music.png", sizes: '96x96', type: 'image/jpeg' },
+                { src: "static/logo/music.png", sizes: '128x128', type: 'image/jpeg' },
+                { src: "static/logo/music.png", sizes: '256x256', type: 'image/jpeg' }
+            ]
+        });
+    }
+
     const playPauseBtn = document.getElementById('play-pause-btn');
     playPauseBtn.textContent = '⏸️';
     playPauseBtn.classList.add('active');
@@ -127,3 +138,13 @@ axios.get("/music")
     .catch(err => {
         alert(err);
     });
+
+async function save() {
+    axios.post("/music", {
+        name: document.getElementById("music_name").value,
+        url: document.getElementById("music_url").value
+    }).then(res => window.location.href = "/")
+        .catch(er => {
+            alert(er.response.data.message)
+        })
+}
